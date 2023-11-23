@@ -1,40 +1,80 @@
-import os
+from tkinter import *
+from math import floor
+import matplotlib.pyplot as plt
 
-if __name__ == "__main__":
-    sistem_operasi= os.name
+root = Tk()
+root.geometry ('600x310')
+root.title('Simulasi Robot')
+root.resizable(width = False, height = False)
+root.configure(bg='white')
 
-    match sistem_operasi:
-        case "posix": os.system("clear")
-        case "nt": os.system("cls")
-        
+f1 = Frame(root, bg='white', width=550, height=550,highlightbackground="white", highlightthickness=2)
+f1.grid(column=0, row=0, pady=5, padx=5)
+
+c1 = Canvas(root, width = 400, height=300, bg='mint cream')
+c1.grid(column = 1, row=0, padx =10, pady=10, sticky=E+N+W+S)
+
+t1 = Text(c1, bg='yellow', height = 5, width = 40, font=('Times', 12))
+t1.grid(column=0, row=0, padx=5, pady=5, sticky =E+N+S+W)
 
 
-print("Program Optimasi Pembuatan Boneka")
-print("==================================")
 
-# x = jumlah boneka yang diproduksi setiap minggu
+l1= Label(f1, text="Masukan Jumlah Kereta", bg='white')
+l1.grid(column=0, row=0)
 
-print("input jumlah boneka:")
-x = int(input())
-x2 = x * 2
-p = (27000 * x - (10000+14000) * x)
+entry1 = Entry(f1, width=7)
+entry1.grid(column =0, row=1,pady=20, ipadx=30)
 
-# z = total pemasukan
-z = 3000 * x - (10000 + 14000) * x
 
-if x2 <= 100 :
-    if x <= 80 :
-        if x <= 40 :
-            if x >= 0 :
-                print (p)
-            else:
-                print("jumlah boneka tidak dapat negatif")
-        else:
-            print("jumlah penjualan boneka terlalu banyak. Kurangi jumlah boneka")
-    else:
-        print("jam pekerjaan kayu terlalu banyak. Kurangi jumlah boneka")
-else:
-    print("jam pemolesan terlalu banyak. Kurangi jumlah boneka")
+l2= Label(f1, text="Harga Jual Boneka : Rp. 27.000", bg='white')
+l2.grid(column=0, row=2)
+l3= Label(f1, text="Harga Jual Kereta : Rp. 21.000", bg='white')
+l3.grid(column=0, row=3)
+l3= Label(f1, text="Modal Boneka: Rp. 24.000", bg='white')
+l3.grid(column=0, row=4)
+l3= Label(f1, text="Modal Kereta: Rp. 19.000", bg='white')
+l3.grid(column=0, row=5)
+l3= Label(f1, text="Kendala Batasan Jam Kerja 3X1 + 2X2 = 180", bg='white')
+l3.grid(column=0, row=6)
+l3= Label(f1, text="Kendala Penjualan Boneka <= 40", bg='white')
+l3.grid(column=0, row=7)
 
-print(f"pemasukan {z} dan keuntungan {p}")
 
+
+def klik():
+    global x2, x1, K, P, M, fig,y
+    x2 = entry1.get()
+    t1.delete("1.0","end")
+    # t1.insert("1.0", x2)
+    #batasan 
+    x1 = (180 - (2 * int(x2))) / 3
+    x1 = floor(x1)
+    if (x1 >= 40):
+        x1 = 40
+    K = (3000 * int(x1)) + (2000 * int(x2) ) 
+    P =(27000 * int(x1)) + (24000*int(x2))
+    M = (24000 * int(x1)) + (19000*int(x2))
+    t1.insert(END, "Jumlah Produksi Kereta : "+str(x2)+"\n")
+    t1.insert(END, "Jumlah Produksi Boneka : "+str(x1)+"\n")
+    t1.insert(END, "Total Modal: "+str(M)+"\n")
+    t1.insert(END, "Total Pemasukan: "+str(P)+"\n")
+    t1.insert(END, "Dengan Keuntungan: "+str(K)+"\n")
+
+    x = (K - int(x2) * 2000) / 3000
+    y = (K - int(x1)* 3000) / 2000
+
+    plt.clf()
+    x, y = [x, 0], [0 , y]
+    plt.plot(x, y, marker = 'o')
+    plt.xlabel("Boneka")
+    plt.ylabel("Kereta")
+    plt.show()
+
+    # t1.insert('1.0',str(entry1)+'\n')
+    root.update()
+
+btn1= Button(f1, text='HITUNG', relief= 'raised',bg='darkgrey', command=klik)
+btn1.grid(column =0, row=8, padx=20, pady=30,  sticky =W+E )
+
+          
+root.mainloop()
