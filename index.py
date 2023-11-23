@@ -1,4 +1,5 @@
 from tkinter import *
+import tkinter.messagebox
 from math import floor
 import matplotlib.pyplot as plt
 #x1 = Jumlah produksi boneka
@@ -7,10 +8,12 @@ import matplotlib.pyplot as plt
 #M = Total modal
 #K = Keuntungan
 #
-#Modal boneka = 24000
-#Modal kereta = 19000
-#Harga jual boneka = 27000
-#Harga jual kereta = 21000
+mdl_boneka = 24000
+mdl_kereta = 19000
+hj_boneka = 27000
+hj_kereta = 21000
+pft_boneka = hj_boneka - mdl_boneka
+pftt_kereta = hj_kereta - mdl_kereta
 #Biaya material boneka = 10000
 #Biaya material kereta = 9000
 #Biaya tenaga kerja = 14000
@@ -62,26 +65,17 @@ def klik():
     #batasan 
     x1 = (180 - (2 * int(x2))) / 3
     x1 = floor(x1)
-    if (x1 >= 40):
-        x1 = 40
-    K = (3000 * int(x1)) + (2000 * int(x2) ) 
-    P =(27000 * int(x1)) + (24000*int(x2))
-    M = (24000 * int(x1)) + (19000*int(x2))
+    if (x1 >= 40): 
+        tkinter.messagebox.showinfo("Peringatan!",  "Jumlah produksi boneka maksimal 40")
+        x = 40
+    K = (pft_boneka * int(x1)) + (pftt_kereta * int(x2) ) 
+    P =(hj_boneka * int(x1)) + (hj_kereta * int(x2))
+    M = (mdl_boneka * int(x1)) + (mdl_kereta * int(x2))
     t1.insert(END, "Jumlah Produksi Kereta : "+str(x2)+"\n")
     t1.insert(END, "Jumlah Produksi Boneka : "+str(x1)+"\n")
     t1.insert(END, "Total Modal: "+str(M)+"\n")
     t1.insert(END, "Total Pemasukan: "+str(P)+"\n")
     t1.insert(END, "Dengan Keuntungan: "+str(K)+"\n")
-
-    x = (K - int(x2) * 2000) / 3000
-    y = (K - int(x1)* 3000) / 2000
-
-    plt.clf()
-    x, y = [x, 0], [0 , y]
-    plt.plot(x, y, marker = 'o')
-    plt.xlabel("Boneka")
-    plt.ylabel("Kereta")
-    plt.show()
 
     # t1.insert('1.0',str(entry1)+'\n')
     root.update()
