@@ -2,6 +2,8 @@ from tkinter import *
 import tkinter.messagebox
 from math import floor
 import matplotlib.pyplot as plt
+from tkinter import ttk
+
 #x1 = Jumlah produksi boneka
 #x2 = Jumlah produksi kereta
 #P = Total pemasukan
@@ -18,6 +20,7 @@ pftt_kereta = hj_kereta - mdl_kereta
 #Biaya material kereta = 9000
 #Biaya tenaga kerja = 14000
 
+
 root = Tk()
 root.geometry ('600x310')
 root.title('Penghitung Keuntungan Maksimum')
@@ -33,14 +36,11 @@ c1.grid(column = 1, row=0, padx =10, pady=10, sticky=E+N+W+S)
 t1 = Text(c1, bg='yellow', height = 5, width = 40, font=('Times', 12))
 t1.grid(column=0, row=0, padx=5, pady=5, sticky =E+N+S+W)
 
-
-
 l1= Label(f1, text="Masukkan Jumlah Kereta", bg='purple')
 l1.grid(column=0, row=0)
 
 entry1 = Entry(f1, width=7)
 entry1.grid(column =0, row=1,pady=20, ipadx=30)
-
 
 l2= Label(f1, text="Harga Jual Boneka : Rp. 27.000", bg='yellow')
 l2.grid(column=0, row=2)
@@ -55,10 +55,17 @@ l3.grid(column=0, row=6)
 l3= Label(f1, text="Kendala Penjualan Boneka <= 40", bg='cyan')
 l3.grid(column=0, row=7)
 
-
+tree = ttk.Treeview(f1, columns=("Produksi Kereta", "Produksi Boneka", "Total Modal", "Total Pemasukan", "Keuntungan"))
+tree.heading("#0", text="No.")
+tree.heading("Produksi Kereta", text="Produksi Kereta")
+tree.heading("Produksi Boneka", text="Produksi Boneka")
+tree.heading("Total Modal", text="Total Modal")
+tree.heading("Total Pemasukan", text="Total Pemasukan")
+tree.heading("Keuntungan", text="Keuntungan")
+tree.grid(column=1, row=1, padx=10, pady=10, sticky=E+N+W+S)
 
 def klik():
-    global x2, x1, K, P, M, fig,y
+    global x2, x1, K, P, M, fig, y
     x2 = entry1.get()
     t1.delete("1.0","end")
     # t1.insert("1.0", x2)
@@ -76,6 +83,8 @@ def klik():
     t1.insert(END, "Total Modal: "+str(M)+"\n")
     t1.insert(END, "Total Pemasukan: "+str(P)+"\n")
     t1.insert(END, "Dengan Keuntungan: "+str(K)+"\n")
+
+    tree.insert("", "end", values=(x2, x1, M, P, K))
 
     # t1.insert('1.0',str(entry1)+'\n')
     root.update()
